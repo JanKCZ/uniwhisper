@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <form id="upload-form">
+        <input type="file" id="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    <p>Transcribed Text: <span id="transcript"></span></p>
+
+    <script>
+    $('#upload-form').on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('file', $('#file')[0].files[0]);
+        $.ajax({
+            url: '/upload',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $('#transcript').text(data.text);
+            }
+        });
+    });
+    </script>
+</body>
+</html>
